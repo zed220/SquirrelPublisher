@@ -1,0 +1,2 @@
+# SquirrelPublisher
+Squirrel auto publisher
