@@ -24,11 +24,13 @@
             <!--<ColumnDefinition Width="Auto"/>-->
         </Grid.ColumnDefinitions>
         <Button Content="Select Exe File" Command="{Binding UpdateExeCommand}"/>
-        <TextBlock Grid.Column="1" Text="{Binding Path=Config.SourceExeFilePath, StringFormat='{}Application Exe File: {0}'}" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Path=Config.Nuspec.Metadata.Version, StringFormat='{}Version: {0}'}"/>
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Path=Config.NuspecShortName, StringFormat='{}Nuspec Name: {0}'}"/>
-        <Button Grid.Row="3" Content="Select Squirrel Exe File" Command="{Binding UpdateSqurrelExeCommand}"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=Config.SquirrelExeFilePath, StringFormat='{}Squirrel Exe File: {0}'}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Text="Application Title"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Config.Nuspec.Metadata.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Column="2" Text="{Binding Path=Config.SourceExeFilePath, StringFormat='{}Application Exe File: {0}'}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Path=Config.Nuspec.Metadata.Version, StringFormat='{}Version: {0}'}"/>
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Path=Config.NuspecShortName, StringFormat='{}Nuspec Name: {0}'}"/>
+        <Button Grid.Row="4" Content="Select Squirrel Exe File" Command="{Binding UpdateSqurrelExeCommand}"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=Config.SquirrelExeFilePath, StringFormat='{}Squirrel Exe File: {0}'}" VerticalAlignment="Center"/>
         <Button Grid.Row="5" Content="Publish" Command="{Binding PublishCommand}"/>
     </Grid>
 </Window>
