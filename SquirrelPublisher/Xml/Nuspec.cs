@@ -30,7 +30,6 @@ namespace SquirrelPublisher.Xml {
                 if(id == value) {
                     return;
                 }
-
                 id = value;
                 PropChanged(nameof(Id));
             }
@@ -62,7 +61,7 @@ namespace SquirrelPublisher.Xml {
                     return;
                 }
 
-                title = value;
+                title = Description = value;
                 PropChanged(nameof(Title));
             }
         }

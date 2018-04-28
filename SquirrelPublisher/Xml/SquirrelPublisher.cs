@@ -116,7 +116,8 @@ namespace SquirrelPublisher.Xml {
             if(TryOpenFile("Applications (*.exe)|*.exe", out string fileName)) {
                 SourceExeFilePath = fileName;
                 if(String.IsNullOrEmpty(NuspecShortName)) {
-                    NuspecShortName = Nuspec.Metadata.Id = nuspec.Metadata.Title = nuspec.Metadata.Description = Path.GetFileNameWithoutExtension(fileName);
+
+                    NuspecShortName = Nuspec.Metadata.Id = Nuspec.Metadata.Title = Path.GetFileNameWithoutExtension(fileName);
                 }
                 Actualize();
             }
@@ -187,13 +188,19 @@ namespace SquirrelPublisher.Xml {
         public void BuildPackage() {
             //download nuget
             RunProcess("Nuget.exe", "pack " + PreviousNuspecFullPath);
+
         }
         public void BuildRelease() {
             RunProcess(SquirrelExeFilePath, "--releasify " + Path.ChangeExtension(PreviousNuspecFullPath, ".nupkg"));
         }
         public void Publish() {
             foreach(var file in Directory.EnumerateFiles(Path.Combine(Path.GetDirectoryName(squirrelExeFilePath), "Releases"))) {
-                File.Copy(file, Path.Combine(@"\\corp\internal\common\visualTests_squirrel\", Path.GetFileName(file)), true);
+                string targetPath = Path.Combine(@"\\corp\internal\common\visualTests_squirrel\", Path.GetFileName(file));
+                if(File.Exists(targetPath)) {
+                    if(new System.IO.FileInfo(targetPath).Length == new System.IO.FileInfo(file).Length)
+                        continue;
+                }
+                File.Copy(file, targetPath, true);
             }
         }
 

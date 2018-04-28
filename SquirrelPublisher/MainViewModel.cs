@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SquirrelPublisher {
@@ -35,6 +36,7 @@ namespace SquirrelPublisher {
             Config.BuildPackage();
             Config.BuildRelease();
             Config.Publish();
+            Environment.Exit(0);
         }
     }
 
