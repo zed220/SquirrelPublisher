@@ -190,7 +190,7 @@ namespace SquirrelPublisher.Xml {
             RunProcess("Nuget.exe", "pack " + PreviousNuspecFullPath);
 
         }
-        public void BuildRelease() {
+        public void BuildSquirrelRelease() {
             RunProcess(SquirrelExeFilePath, "--releasify " + Path.ChangeExtension(PreviousNuspecFullPath, ".nupkg"));
         }
         public void Publish() {
@@ -216,7 +216,6 @@ namespace SquirrelPublisher.Xml {
             runnerProcess.Start();
             runnerProcess.WaitForExit();
             Directory.SetCurrentDirectory(prevDir);
-            //var res = runnerProcess.StandardOutput.ReadToEnd();
         }
 
         void PropChanged(string name) {

@@ -34,7 +34,7 @@ namespace SquirrelPublisher {
         public void Publish() {
             Config.Save();
             Config.BuildPackage();
-            Config.BuildRelease();
+            Config.BuildSquirrelRelease();
             Config.Publish();
             Environment.Exit(0);
         }

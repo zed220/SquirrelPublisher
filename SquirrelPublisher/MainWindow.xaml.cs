@@ -16,23 +16,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 
-namespace SquirrelPublisher
-{
+namespace SquirrelPublisher {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
+    public partial class MainWindow : Window {
+        public MainWindow() {
             InitializeComponent();
         }
-
-        //void Button_Click(object sender, RoutedEventArgs e) {
-        //    var ser = new XmlSerializer(typeof(Nuspec));
-        //    using(FileStream stream = File.OpenRead(@"c:\Users\zinovyev.petr\Documents\DXVisualTestFixer\packages\squirrel.windows.1.8.0\tools\DXVisualTestFixer.2.0.7.nuspec")) {
-        //        var res = ser.Deserialize(stream);
-        //    }
-        //}
     }
 }
