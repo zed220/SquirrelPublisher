@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace SquirrelPublisher.Xml {
@@ -25,6 +25,7 @@ namespace SquirrelPublisher.Xml {
         string targetNuspecFolderName = @"lib\net45";
         string sourceExeFilePath;
         string squirrelExeFilePath;
+        string releasePath;
         Nuspec nuspec;
 
 
@@ -101,6 +102,16 @@ namespace SquirrelPublisher.Xml {
                 PropChanged(nameof(SquirrelExeFilePath));
             }
         }
+        [XmlAttribute]
+        public string ReleasePath {
+            get { return releasePath; }
+            set {
+                if(releasePath == value)
+                    return;
+                releasePath = value;
+                PropChanged(nameof(ReleasePath));
+            }
+        }
         [XmlIgnore]
         public Nuspec Nuspec {
             get { return nuspec; }
@@ -132,6 +143,10 @@ namespace SquirrelPublisher.Xml {
             if(TryOpenFile("Applications (*.exe)|*.exe", out string fileName))
                 SquirrelExeFilePath = fileName;
         }
+        //public void UpdateReleasePath() {
+        //    if(TryOpenFolder(out string path))
+        //        ReleasePath = path;
+        //}
 
         void PopulateNuspecFiles() {
             foreach(var file in Directory.GetFiles(NuspecDirectory)) {
@@ -142,16 +157,28 @@ namespace SquirrelPublisher.Xml {
 
         bool TryOpenFile(string filter, out string fileName) {
             fileName = null;
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = filter, Multiselect = false };
-            if(!openFileDialog.ShowDialog().GetValueOrDefault(false))
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = filter, Multiselect = false, CheckFileExists = true };
+            if(openFileDialog.ShowDialog() != DialogResult.OK)
                 return false;
             if(!File.Exists(openFileDialog.FileName)) {
-                MessageBox.Show("File not exist: " + openFileDialog.FileName);
+                System.Windows.Forms.MessageBox.Show("File not exists: " + openFileDialog.FileName);
                 return false;
             }
             fileName = openFileDialog.FileName;
             return true;
         }
+        //bool TryOpenFolder(out string path) {
+        //    path = null;
+        //    FileFolderDialog openDirectoryDialog = new FileFolderDialog();
+        //    if(openDirectoryDialog.ShowDialog() != DialogResult.OK)
+        //        return false;
+        //    if(!Directory.Exists(openDirectoryDialog.SelectedPath)) {
+        //        System.Windows.Forms.MessageBox.Show("Directory wrong: " + openDirectoryDialog.SelectedPath);
+        //        return false;
+        //    }
+        //    path = openDirectoryDialog.SelectedPath;
+        //    return true;
+        //}
 
         void UpdateNuspecVersion() {
             if(String.IsNullOrEmpty(SourceExeFilePath) || !File.Exists(SourceExeFilePath))
@@ -191,17 +218,7 @@ namespace SquirrelPublisher.Xml {
 
         }
         public void BuildSquirrelRelease() {
-            RunProcess(SquirrelExeFilePath, "--releasify " + Path.ChangeExtension(PreviousNuspecFullPath, ".nupkg"));
-        }
-        public void Publish() {
-            foreach(var file in Directory.EnumerateFiles(Path.Combine(Path.GetDirectoryName(squirrelExeFilePath), "Releases"))) {
-                string targetPath = Path.Combine(@"\\corp\internal\common\visualTests_squirrel\", Path.GetFileName(file));
-                if(File.Exists(targetPath)) {
-                    if(new System.IO.FileInfo(targetPath).Length == new System.IO.FileInfo(file).Length)
-                        continue;
-                }
-                File.Copy(file, targetPath, true);
-            }
+            RunProcess(SquirrelExeFilePath, $"--releasify {Path.ChangeExtension(PreviousNuspecFullPath, ".nupkg")} --releaseDir={ReleasePath}");
         }
 
         void RunProcess(string fileName, string arguments) {

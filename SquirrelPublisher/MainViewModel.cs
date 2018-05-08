@@ -19,6 +19,7 @@ namespace SquirrelPublisher {
 
         public ICommand UpdateExeCommand { get; }
         public ICommand UpdateSqurrelExeCommand { get; }
+        public ICommand UpdateReleasePathCommand { get; }
         public ICommand PublishCommand { get; }
 
         public void Save() {
@@ -35,7 +36,6 @@ namespace SquirrelPublisher {
             Config.Save();
             Config.BuildPackage();
             Config.BuildSquirrelRelease();
-            Config.Publish();
             Environment.Exit(0);
         }
     }

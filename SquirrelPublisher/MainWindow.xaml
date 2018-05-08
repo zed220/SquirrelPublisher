@@ -21,23 +21,35 @@
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Select Application Exe File" Command="{Binding UpdateExeCommand}"/>
-                <TextBlock Text="{Binding Path=Config.SourceExeFilePath, StringFormat='{}Application Exe File: {0}'}" VerticalAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Application Title: "/>
-                <TextBox Text="{Binding Path=Config.Nuspec.Metadata.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
-            </StackPanel>
-            <TextBlock Text="{Binding Path=Config.Nuspec.Metadata.Version, StringFormat='{}Version: {0}'}"/>
-            <TextBlock Text="{Binding Path=Config.NuspecShortName, StringFormat='{}Nuspec Name: {0}'}"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Select Squirrel Exe File" Command="{Binding UpdateSqurrelExeCommand}"/>
-                <TextBlock Text="{Binding Path=Config.SquirrelExeFilePath, StringFormat='{}Squirrel Exe File: {0}'}" VerticalAlignment="Center"/>
-            </StackPanel>
-            <Button Grid.Row="5" Content="Publish" Command="{Binding PublishCommand}"/>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Select Application Exe File" Command="{Binding UpdateExeCommand}"/>
+            <TextBlock Text="{Binding Path=Config.SourceExeFilePath, StringFormat='{}Application Exe File: {0}'}" VerticalAlignment="Center"/>
         </StackPanel>
-    </Grid>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Application Title: "/>
+            <TextBox Text="{Binding Path=Config.Nuspec.Metadata.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Authors: "/>
+            <TextBox Text="{Binding Path=Config.Nuspec.Metadata.Authors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Description: "/>
+            <TextBox Text="{Binding Path=Config.Nuspec.Metadata.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" MinHeight="40" 
+                     VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" TextWrapping="WrapWithOverflow"/>
+        </StackPanel>
+        <TextBlock Text="{Binding Path=Config.Nuspec.Metadata.Version, StringFormat='{}Version: {0}'}"/>
+        <TextBlock Text="{Binding Path=Config.NuspecShortName, StringFormat='{}Nuspec Name: {0}'}"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Select Squirrel Exe File" Command="{Binding UpdateSqurrelExeCommand}"/>
+            <TextBlock Text="{Binding Path=Config.SquirrelExeFilePath, StringFormat='{}Squirrel Exe File: {0}'}" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <!--<Button Content="Select Release Path" Command="{Binding UpdateReleasePathCommand}"/>-->
+            <TextBlock Text="Release Folder: " VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Path=Config.ReleasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+        </StackPanel>
+        <Button Grid.Row="5" Content="Publish" Command="{Binding PublishCommand}"/>
+    </StackPanel>
 </Window>
