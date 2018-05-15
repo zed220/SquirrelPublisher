@@ -149,6 +149,7 @@ namespace SquirrelPublisher.Xml {
         //}
 
         void PopulateNuspecFiles() {
+            Nuspec.Files.Clear();
             foreach(var file in Directory.GetFiles(NuspecDirectory)) {
                 if(SupportedFiles.Contains(Path.GetExtension(file)))
                     Nuspec.Files.Add(new FileInfo() { Src = file, Target = Path.Combine(TargetNuspecFolderName, Path.GetFileName(file)) });
