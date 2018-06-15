@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 namespace SquirrelPublisher.Xml {
     [XmlRoot]
     public class Config : INotifyPropertyChanged {
-        static string[] SupportedFiles = new string[] { ".exe", ".dll", ".xml" };
+        static string[] SupportedFiles = new string[] { ".exe", ".dll", ".xml", ".config"  };
 
         static string ConfigPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "SquirrelPublisher.conf");
 
@@ -153,6 +153,15 @@ namespace SquirrelPublisher.Xml {
             foreach(var file in Directory.GetFiles(NuspecDirectory)) {
                 if(SupportedFiles.Contains(Path.GetExtension(file)))
                     Nuspec.Files.Add(new FileInfo() { Src = file, Target = Path.Combine(TargetNuspecFolderName, Path.GetFileName(file)) });
+            }
+            foreach(var directory in Directory.GetDirectories(NuspecDirectory)) {
+                var directoryName = Path.GetFileName(directory);
+                if(directoryName.Contains("app.publish"))
+                    continue;
+                foreach(var file in Directory.GetFiles(directory)) {
+                    if(SupportedFiles.Contains(Path.GetExtension(file)))
+                        Nuspec.Files.Add(new FileInfo() { Src = Path.Combine(directory, file), Target = Path.Combine(TargetNuspecFolderName, Path.Combine(directoryName, Path.GetFileName(file))) });
+                }
             }
         }
 
